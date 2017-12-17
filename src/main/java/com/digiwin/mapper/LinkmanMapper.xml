@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.digiwin.mapper.LinkmanMapper" >
+  <resultMap id="BaseResultMap" type="com.digiwin.pojo.Linkman" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="userId" property="userid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="mobilePhoneNumber" property="mobilephonenumber" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="localPhoneNumber" property="localphonenumber" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, userId, name, mobilePhoneNumber, email, localPhoneNumber, department, position, 
+    address, createtime, updatetime
+  </sql>
+
+  <!-- 批插入 insertLinkmanBatch -->
+  <insert id="insertLinkmanBatch" parameterType="java.util.List" >
+    INSERT INTO linkman (id, userId, name,
+    mobilePhoneNumber, email, localPhoneNumber,
+    department, position, address,
+    createtime, updatetime)
+    values
+    <foreach collection="list" item="linkman" index="index" separator="," >
+      (#{linkman.id}, #{linkman.userid}, #{linkman.name}, #{linkman.mobilephonenumber},
+      #{linkman.email}, #{linkman.localphonenumber}, #{linkman.department},
+      #{linkman.position}, #{linkman.address}, #{linkman.createtime},
+      #{linkman.updatetime})
+    </foreach>
+  </insert>
+
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.digiwin.pojo.LinkmanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from linkman
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from linkman
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from linkman
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.digiwin.pojo.LinkmanExample" >
+    delete from linkman
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.digiwin.pojo.Linkman" >
+    insert into linkman (id, userId, name, 
+      mobilePhoneNumber, email, localPhoneNumber, 
+      department, position, address, 
+      createtime, updatetime)
+    values (#{id,jdbcType=BIGINT}, #{userid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{mobilephonenumber,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{localphonenumber,jdbcType=VARCHAR}, 
+      #{department,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.digiwin.pojo.Linkman" >
+    insert into linkman
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="mobilephonenumber != null" >
+        mobilePhoneNumber,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="localphonenumber != null" >
+        localPhoneNumber,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephonenumber != null" >
+        #{mobilephonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="localphonenumber != null" >
+        #{localphonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.digiwin.pojo.LinkmanExample" resultType="java.lang.Integer" >
+    select count(*) from linkman
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update linkman
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userid != null" >
+        userId = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobilephonenumber != null" >
+        mobilePhoneNumber = #{record.mobilephonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.localphonenumber != null" >
+        localPhoneNumber = #{record.localphonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.department != null" >
+        department = #{record.department,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null" >
+        position = #{record.position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update linkman
+    set id = #{record.id,jdbcType=BIGINT},
+      userId = #{record.userid,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      mobilePhoneNumber = #{record.mobilephonenumber,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      localPhoneNumber = #{record.localphonenumber,jdbcType=VARCHAR},
+      department = #{record.department,jdbcType=VARCHAR},
+      position = #{record.position,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.digiwin.pojo.Linkman" >
+    update linkman
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephonenumber != null" >
+        mobilePhoneNumber = #{mobilephonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="localphonenumber != null" >
+        localPhoneNumber = #{localphonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.digiwin.pojo.Linkman" >
+    update linkman
+    set userId = #{userid,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      mobilePhoneNumber = #{mobilephonenumber,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      localPhoneNumber = #{localphonenumber,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
